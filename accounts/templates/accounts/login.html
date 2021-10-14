@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load tailwind_filters %}
+{% block body_content %}
+<div class="flex justify-center items-center md:mt-32">
+    
+    <div class="flex flex-col justify-center md:flex-row w-full md:w-4/5 xl:w-2/5 2xl:w-2/5 border bg-white rounded-xl">
+
+        <form action="" method="post" class="p-16 h-screen md:w-4/5 xl:w-auto md:h-auto xl:h-auto 2xl:h-auto">
+            {% csrf_token %}
+            <h1 class="text-5xl text-center font-semibold mb-8" >Login</h1>
+
+            {{form | crispy}}
+            <input type="submit" class="border-2 w-full bg-transparent hover:text-white hover:bg-black text-black p-4 font-semibold rounded-full" value="Login">
+            <div class="m-4" >
+                <small class="">Don't have account? <a href="{% url 'accounts:signup' %}" class="text-blue-500 hover:underline">Sign Up</a></small>
+            </div>
+            <a href="/accounts/google/login/?process=login">
+                <input type="button" class="border-2 w-full bg-transparent hover:text-white hover:bg-yellow-600 text-black p-4 font-semibold rounded-full" value="Login with Google">
+            </a>
+
+        </form>
+        
+    </div>
+
+ </div>
+{% endblock body_content %}

@@ -1,0 +1,21 @@
+{% block body_content %}
+<form method="POST" id="order_item_form" class = 'custom-radio-button flex flex-row items-center font-semibold m-2'>
+    <span>Size:</span>
+    {% csrf_token %}
+        {% for value, name in form.fields.item_size.choices %}
+          <input type="radio" name='size' id='{{name}}' value='{{value}}' class="hidden">
+          <label id='{{value}}' for="{{name}}" class="w-full text-center font-semibold m-2 p-2 border rounded-xl">{{name}}</label>
+        {% endfor %}
+    </form>
+    <div class="flex justify-end">
+      <a onclick="myFunction()" class="border-2 hover:bg-black hover:text-white text-black bg-transparent font-semibold p-4 rounded-xl">Add to cart</a>
+    </div>
+
+{% endblock body_content %}
+{% block script %}
+<script>
+  function myFunction() {
+      document.getElementById("order_item_form").submit();
+  }
+</script>
+{% endblock script %}

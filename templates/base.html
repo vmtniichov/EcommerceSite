@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+     <title>Document</title>
+     
+</head>
+<body class="bg-gray-200 h-screen" >
+     <header id="headerMenu" class="absolute flex justify-between flex-row flex-wrap md:flex-row xl:flex-row bg-black text-white md:items-center xl:items-center md:space-x-4 xl:space-x-4 py-2 md:py-0 px-6 relative">
+          <a href="{% url 'items:home' %}" class="">Logo</a>
+          <a id="btnMenu" class="inline-block md:hidden xl:hidden w-8 h-8 ">
+               <img src="https://img.icons8.com/ios-glyphs/30/ffffff/menu--v2.png"/>
+          </a>
+          <nav id="navMenu" class="h-screen md:h-auto hidden flex flex-col justify-between md:flex md:flex-row md:space-x-6 md:w-auto md:p-0 md:top-0 xl:flex xl:flex-row xl:space-x-6 xl:w-auto xl:p-0 xl:top-0 w-full top-8 left-0 font-semibold rounded">
+               <div class="flex flex-col justify-end md:flex-row md:items-center md:space-x-6 xl:flex-row xl:items-center xl:space-x-6 bg-black text-center mt-4 pb-2">
+                    {% if user.is_authenticated %}
+                         {% if user.first_name or user.last_name %}
+                              <span>Hi, {{user.first_name}} {{user.last_name}}</span>
+                         {% elif user.email %}
+                              <span>Hi, {{user.email}} </span>
+                         {% else %}
+                              <span>Hi, {{user.username}}</span>
+                         {% endif %}
+                         <a href="{% url 'accounts:profile' user.pk %}" class=" hover:underline p-4 md:p-0 xl:p-0">Manage Account</a>
+                         <a href="{% url 'accounts:logout' %}" class=" hover:underline p-4 md:p-0 xl:p-0">Log Out</a>
+                    {% else %}
+                         <a href="{% url 'accounts:login' %}" class=" hover:underline p-4 md:p-0 xl:p-0">Log In</a>
+                         <a href="{% url 'accounts:signup' %}" class=" hover:underline p-4 md:p-0 xl:p-0">Sign Up</a>
+                    {% endif %}
+
+                    <div  id="searchBox" class="hidden mt-4 ml-4 md:w-2/5 md:mt-0 md:ml-0  xl:mt-0 xl:ml-0 ">
+                         <select name="" id="" class="text-black p-2 rounded-full">
+                              <option value="" class="rounded-full p-2">All</option>
+                              <option value="">Item 1</option>
+                              <option value="">Item 2</option>
+                              <option value="">Item 3</option>
+                         </select>
+                         <input type="text" id="searchBar" placeholder="Search item" class="w-1/2 rounded-full text-black text-left p-2 md:p-2 xl:p-2" >
+                    </div>
+                    <div class="flex justify-between items-center">
+                         <button href="" id="btnSearch" class="flex justify-center w-1/2">
+                              <img src="https://img.icons8.com/ios-filled/50/ffffff/search--v4.png" class="w-1/4 xl:w-1/2 h-1/4 bg-transparent text-white font-semibold p-2 md:p-0 xl:p-0 m-2 md:m-0 xl:m-0"/>
+                         </button>
+                         
+                         
+                         <a href="" id="btnCart" class="flex justify-center hover:bg-white px-4 p-4 rounded md:p-0 xl:p-0 w-1/2">
+                              <img class="w-12 h-12 md:w-full md:h-full xl:w-full xl:h-full md:p-4 xl:p-4 "  onmouseover="hover(this)"  onmouseout="unhover(this);" src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/ffffff/external-cart-ecommerce-flatart-icons-outline-flatarticons-4.png" />
+                         </a>
+                    </div>
+               </div>
+               <button id="btnMenu2" class="h-2/3 bg-blue md:hidden">
+
+               </button>
+          </nav>
+          
+     </header>
+     <!-- Messages -->
+     {% block messages %}
+          
+     {% endblock messages %}
+     <div class=''>
+          {% block body_content %}
+       
+          {% endblock body_content %}
+     </div>
+     <footer class="text-center font-semibold p-8">
+          <span class=" border-top-2">&copy {% now "Y" %} VMT</span>
+     </footer>
+     <script>
+          var elem = document.getElementById("btnSearch");
+          var searchBox = document.getElementById("searchBox");
+          var searchBar = document.getElementById("searchBar");
+
+          elem.addEventListener('click', (event) => {
+               searchBox.classList.toggle("hidden")
+               searchBar.focus()
+          })
+     </script>
+     
+     <script>
+          var btn1 = document.getElementById("btnMenu");
+          var btn2 = document.getElementById("btnMenu2");
+          var navMenu = document.getElementById("navMenu")
+          btn1.addEventListener('click', (event) => {
+               navMenu.classList.toggle("hidden")
+               navMenu.classList.toggle("absolute")
+          })
+          btn2.addEventListener('click', (event) => {
+               navMenu.classList.toggle("hidden")
+               navMenu.classList.toggle("absolute")
+          })
+     </script>
+
+      <script>
+          var element = document.getElementById("btnCart")
+          function hover(element) {
+               element.setAttribute('src', 'https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/000000/external-cart-ecommerce-flatart-icons-outline-flatarticons-4.png');
+          }
+          function unhover(element) {
+               element.setAttribute('src', 'https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/ffffff/external-cart-ecommerce-flatart-icons-outline-flatarticons-4.png');
+          }
+     </script>
+{% block script %}
+  
+{% endblock script %}
+</body>
+</html>

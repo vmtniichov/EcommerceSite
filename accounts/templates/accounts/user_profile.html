@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block messages %}
+    {% if messages %}
+        {% for msg in messages %}
+        <div role="alert" class="w-full flex justify-center font-semibold m-4">
+        <span class="w-2/3 text-center
+        {% if msg.tags == 'error' %} 
+            bg-white text-red-600 border-2 border-red-400
+        {% else %} 
+            text-green-500 border-2 border-green-500
+        {% endif %} 
+        rounded p-4">{{msg}}</span>
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endblock messages %}
+
+{% block body_content %}
+<div class="h-screen w-full flex justify-center md:mt-16">
+    <div class="w-full md:w-4/5 xl:2/5 2xl:w-2/5 flex flex-col bg-white h-1/2 p-4 rounded-xl">
+        <div class="flex justify-between items-center">
+            <span class="text-3xl font-semibold">User Profile</span>
+            <a href="{% url 'accounts:pwd-change' user.pk %}" class="border-b-2 border-white hover:border-gray-500">Change password</a>
+        </div>
+        <div class = "flex justify-between border-b-2 border-black m-4 p-2">
+            <div>
+                <span class="font-bold">Name:</span> 
+                <span class="font-semibold">{{user.first_name}} {{user.last_name}}</span> 
+            </div>
+            <a href="{% url 'accounts:update' user.pk %}" class="border-b-2 border-white hover:border-gray-500">Change</a>
+        </div>
+        <div class = "border-b-2 border-black font-bold m-4 p-2">
+            <div>
+                <span class="font-bold">Email:</span> 
+                <span class="font-semibold"> {{user.email}}</span> 
+            </div>
+        </div>
+    </div>
+ </div>
+{% endblock body_content %}

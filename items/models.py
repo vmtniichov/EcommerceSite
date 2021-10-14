@@ -1,0 +1,72 @@
+from django.db import models
+from django.utils import timezone
+from django.utils.text import slugify
+from django.contrib.auth import get_user_model
+
+# Create your models here.
+
+User = get_user_model()
+
+class Category(models.Model):
+    name = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.name
+
+    class Meta():
+        verbose_name_plural = 'Categories'
+    
+
+class Item(models.Model):
+    name = models.CharField(max_length=128, unique=True)
+    description = models.TextField(blank=True)
+    price = models.PositiveIntegerField(default=0)
+    discount_price = models.IntegerField(blank=True, null=True)
+    categories = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+    image = models.ImageField(upload_to = 'static/media/item-images',blank=True,null = True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Item, self).save(*args,**kwargs)
+
+    def item_formated_price(self):
+        return f"{self.price:,} VND"
+
+    def item_formated_discount_price(self):
+        return f"{self.discount_price:,} VND"
+
+    def __str__(self) -> str:
+        return self.name
+    
+    class Meta:
+        ordering = ['id']
+
+class OrderItem(models.Model):
+    item = models.ForeignKey("Item", on_delete=models.CASCADE)
+    size = models.CharField(max_length=3, null = True, blank=True, unique=True)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def get_final_price(self):
+        return self.item.discount_price if self.item.discount_price else self.item.price
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    items = models.ManyToManyField("OrderItem")
+    create_date = models.DateTimeField(auto_now=timezone.now)
+    order_date = models.DateTimeField()
+    order_state = models.BooleanField(default = False)
+    order_total = models.PositiveIntegerField(default=0, blank=True, null=True)
+
+    def get_order_total(self):
+        total = 0
+        for item in self.items:
+            item_price = int(item.get_final_price().replace(",", ""))
+            total +=  item_price * item.quantity
+        self.order_total = total
+        self.save()
+        return total
+
+
+
+

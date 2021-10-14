@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body_content %}
+<img src="{% static 'media/images/hp-img.jpg' %}" class="w-full" alt="">
+<div class="">
+     <div class="grid grid-cols-10 md:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10">
+         {% for item in items %}
+         <div class="col-span-5 md:col-span-2 xl:col-span-2 2xl:col-span-2 m-2 mt-4 md:mt-8 border bg-white rounded-xl p-2">
+          <a href="{% url 'items:details' item.slug %}"class="">
+               <div class="flex flex-col">
+                   {% if item.image %}
+                   <img src="{{item.image.url}}" class="w-full h-48 md:h-64 xl:h-84 2xl:h-96" alt="">
+                   {% else %}
+                   <img src="{% static 'media/images/img-not-found.gif' %}" class="w-full h-48 md:h-64 xl:h-84 2xl:h-96" alt="">
+                   {% endif %}
+                    <div class=" flex justify-between flex-wrap md:mt-4">
+                         <div class="">
+                              <label class="text-xl text-center text-gray-600 font-semibold  border-b-2">{{item.name}}</label><br>
+                              {% if item.discount_price %}
+                              <label class="text-2xl text-center text-black font-semibold">{{item.item_formated_discount_price}}</label>
+                              <del class="text-lg text-center text-red-500 font-semibold" for="">{{item.item_formated_price}}</del>
+                              {% else %}
+                              <label class="text-xl text-center text-black font-semibold">{{item.item_formated_price}}</label>
+                              {% endif %}
+                         </div>     
+                       <a href="{% url 'items:details' item.slug %}" class="border-2 hover:bg-black hover:text-white text-black bg-transparent font-semibold p-4 rounded-xl">Details</a>
+                   </div>
+               </div>
+          </a>
+     </div>
+         {% endfor %}
+     </div>
+</div>
+{% endblock body_content %}
