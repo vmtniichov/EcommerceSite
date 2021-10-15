@@ -44,29 +44,44 @@ class Item(models.Model):
 
 class OrderItem(models.Model):
     item = models.ForeignKey("Item", on_delete=models.CASCADE)
-    size = models.CharField(max_length=3, null = True, blank=True, unique=True)
+    size = models.CharField(max_length=3, null = True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
 
     def get_final_price(self):
         return self.item.discount_price if self.item.discount_price else self.item.price
 
+    def get_item_total(self):
+        total = self.get_final_price() * self.quantity
+        return total
+    def get_item_total_formated(self):
+        return f"{self.get_item_total():,} VND"
+
+    def __str__(self) -> str:
+        return f"{self.item.name}({self.size})"
+
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     items = models.ManyToManyField("OrderItem")
     create_date = models.DateTimeField(auto_now=timezone.now)
-    order_date = models.DateTimeField()
+    order_date = models.DateTimeField(blank=True,null=True)
     order_state = models.BooleanField(default = False)
     order_total = models.PositiveIntegerField(default=0, blank=True, null=True)
 
     def get_order_total(self):
         total = 0
-        for item in self.items:
-            item_price = int(item.get_final_price().replace(",", ""))
-            total +=  item_price * item.quantity
-        self.order_total = total
-        self.save()
-        return total
+        for order_item in self.items.all():
+            total+=order_item.get_item_total()
+        return f"{total:,}"
 
+    def save(self,*args, **kwargs):
+        total = 0
+        for order_item in self.items.all():
+            total+=order_item.get_item_total()
+        self.order_total = total
+        super(Order,self).save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return f"Order No.{self.pk}--Username:{self.user.username}"
 
 
 

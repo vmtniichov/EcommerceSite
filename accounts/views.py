@@ -57,11 +57,5 @@ class PwdChangeView(LoginRequiredMixin,PasswordChangeView):
         messages.info(self.request, "Password Changed!")
         return reverse("accounts:profile", kwargs={'pk':self.request.user.pk})
 
-class PwdResetView(PasswordResetView):
-    
-    form_class = PasswordResetForm
-
-    def get_success_url(self) -> str:
-        return redirect("accounts:pwd-reset-done")
 
 

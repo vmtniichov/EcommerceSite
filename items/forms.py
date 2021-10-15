@@ -11,6 +11,8 @@ sizes = (
 )
 class OrderItemForm(forms.Form):
     item_size = forms.ChoiceField(choices=sizes, widget=forms.RadioSelect(attrs={'require':True}))
+    # quantity = forms.DecimalField(min_value=1, max_value=100, max_digits=4,widget=forms.NumberInput(attrs={'class': 'text-black',
+    #                                                                 }),)
     
 
     

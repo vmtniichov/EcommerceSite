@@ -36,11 +36,11 @@
                 <label class="text-4xl m-2">{{item.item_formated_price}}</label>
             {% endif %}
 
-            <p class="text-2xl m-2">Loại: {{item.categories}}</p>
+            <p class="text-2xl m-2">Category: {{item.categories}}</p>
             
             {% include "items/size.html" %}
             
-            <p class="text-2xl font-semibold m-2">Thông tin</p>
+            <p class="text-2xl font-semibold m-2">Description</p>
             <p class="text-xl text-justify m-2">{{item.description}}</p>
             
         </div>
