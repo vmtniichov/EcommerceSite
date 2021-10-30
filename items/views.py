@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404,redirect
-from django.http import request
 from django.urls.base import reverse
 from django.views.generic import ListView, DetailView, View
 from django.contrib.auth.decorators import login_required
@@ -49,8 +48,6 @@ def ItemDetailView(request, slug):
             return redirect("items:details", slug=slug)
         
 
-        
-
 @login_required
 def add_to_cart(request, slug):
     
@@ -67,20 +64,24 @@ def add_to_cart(request, slug):
             # Nếu đã có Item 
             order_item.quantity +=1
             order_item.save()
-            order.save()
-            msg = f"Added {item.name}({size})to  your cart!"
+            # order.save()
+            order.set_order_total()
+            msg = f"Đã thêm {item.name}({size}) vào giỏ hàng!"
             messages.info(request,msg)
             return redirect("items:details", slug=slug)
         else:
             order.items.add(order_item)
-            order.save()
-            msg = f"Added {item.name}({size})to  your cart!"
+            # order.save()
+            order.set_order_total()
+
+            msg = f"Đã thêm {item.name}({size}) vào giỏ hàng!"
             messages.info(request,msg)
             return redirect("items:details", slug=slug)
     else:
-        order = Order.objects.create(user=request.user)
         order_item = OrderItem.objects.create(item = item,size=size)
+        order = Order.objects.create(user=request.user)
         order.items.add(order_item)
+        order.set_order_total()
         msg = f"Added {item.name}({size})to  your cart!"
         messages.info(request,msg)
         return redirect("items:details", slug=slug)
@@ -95,7 +96,8 @@ def remove_from_cart(request,slug,size):
     if order_qs.exists():
         order = order_qs[0]
         if order.items.filter(item__slug = item.slug):
-            #lấy danh sách order_item của order có trạng thái là false
+            
+            #lấy danh sách order_item theo item, order, size
             order_item_qs = OrderItem.objects.filter(item = item, order=order,size=size)
             
             if order_item_qs.exists():

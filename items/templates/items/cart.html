@@ -18,9 +18,8 @@
 {% endblock messages %}
 
 {% block body_content %}
-<div class="flex justify-center items-center md:mt-32">
-    
-    <div class="flex flex-col justify-center md:flex-row w-full md:w-4/5 xl:w-3/5 2xl:w-3/5 border bg-white rounded-xl">
+<div class="flex justify-center h-3/5 items-center md:mt-32">
+    <div class="flex flex-col justify-center md:flex-col w-full md:w-4/5 xl:w-3/5 2xl:w-3/5 border bg-white rounded-xl">
         <table>
             <tr class="">
                 <th class="text-center text-black p-8">#</th>
@@ -29,7 +28,6 @@
                 <th class="text-center text-black p-8">Quantity</th>
                 <th class="text-center text-black p-8">Price</th>
                 <th class="text-center text-black p-8">Amount</th>
-                <th class="text-center text-black p-8"></th>
                 <th class="text-center text-black p-8"></th>
             </tr>
             {% for order_item in order.items.all %}
@@ -61,9 +59,23 @@
                 <td class="text-center text-2xl">Total</td>
                 <td class="text-center text-2xl">{{order.get_order_total}}</td>
             </tr>
+            <tr></tr>
+            <tr  class="p-4">
+                <td colspan="2">
+                </td>
+                <td colspan="2">
+                </td>
+                <td colspan="3">
+                </td>
+            </tr>
         </table>
+        <div class="flex justify-between m-8">
+        
+            <a href="" class="hover:underline p-4">TIẾP TỤC MUA SẮM</a>
+            <a href="{% url 'accounts:checkout' %}" class="border-2 hover:bg-black hover:text-white text-black bg-transparent font-semibold p-4 rounded-xl">TIẾN HÀNH THÀNH TOÁN</a>
 
+        </div>
+    
     </div>
-
  </div>
 {% endblock body_content %}

@@ -6,11 +6,11 @@
     <div class="flex flex-col justify-center md:flex-row w-full md:w-4/5 xl:w-2/5 2xl:w-2/5 border bg-white rounded-xl">
         <form action="" method="post" class="p-16">
             {% csrf_token %}
-            <h1 class="text-5xl text-center font-semibold mb-8" >Sign Up</h1>
+            <h1 class="text-5xl text-center font-semibold mb-8" >Đăng ký</h1>
             {{form | crispy}}
-            <input type="submit" class="border-2 w-full bg-transparent hover:text-white hover:bg-black text-black p-4 font-semibold rounded-full" value="Sign Up">
+            <input type="submit" class="border-2 w-full bg-transparent hover:text-white hover:bg-black text-black p-4 font-semibold rounded-full" value="Đăng ký">
             <div class="m-4" >
-                <small class="">Already have an account? <a href="{% url 'accounts:login' %}" class="text-blue-500 hover:underline">Login</a></small>
+                <small class="">Đã có tài khoản? <a href="{% url 'accounts:login' %}" class="text-blue-500 hover:underline">Đăng nhập</a></small>
             </div>
         </form>
         

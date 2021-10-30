@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
 
+from accounts.models import Address
 # Create your models here.
 
 User = get_user_model()
@@ -66,19 +67,20 @@ class Order(models.Model):
     order_date = models.DateTimeField(blank=True,null=True)
     order_state = models.BooleanField(default = False)
     order_total = models.PositiveIntegerField(default=0, blank=True, null=True)
+    shipping_address = models.ForeignKey(Address, blank=True,null=True, on_delete=models.SET_NULL)
 
     def get_order_total(self):
         total = 0
         for order_item in self.items.all():
             total+=order_item.get_item_total()
-        return f"{total:,}"
+        return f"{total:,} VND"
 
-    def save(self,*args, **kwargs):
+    def set_order_total(self):
         total = 0
         for order_item in self.items.all():
             total+=order_item.get_item_total()
         self.order_total = total
-        super(Order,self).save(*args, **kwargs)
+        self.save()
 
     def __str__(self) -> str:
         return f"Order No.{self.pk}--Username:{self.user.username}"

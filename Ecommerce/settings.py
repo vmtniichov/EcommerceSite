@@ -163,7 +163,6 @@ LOGOUT_REDIRECT_URL = "accounts:login"
 CRISPY_TEMPLATE_PACK = 'tailwind'
 
 
-
 #SMTP Config
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.gmail.com"
