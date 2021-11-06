@@ -37,6 +37,9 @@ class Item(models.Model):
     def item_formated_discount_price(self):
         return f"{self.discount_price:,} VND"
 
+    def get_final_item_formated_price(self):
+        return self.item_formated_discount_price() if self.discount_price else self.item_formated_price()
+
     def __str__(self) -> str:
         return self.name
     
@@ -67,7 +70,11 @@ class Order(models.Model):
     order_date = models.DateTimeField(blank=True,null=True)
     order_state = models.BooleanField(default = False)
     order_total = models.PositiveIntegerField(default=0, blank=True, null=True)
-    shipping_address = models.ForeignKey(Address, blank=True,null=True, on_delete=models.SET_NULL)
+
+    shipping_address = models.ForeignKey(Address, blank=True,null=True, on_delete=models.CASCADE)
+    process = models.BooleanField(default=False,blank=True,null=True)
+    payment_method = models.CharField(max_length=64, blank=True,null=True)
+
 
     def get_order_total(self):
         total = 0

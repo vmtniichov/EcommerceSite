@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load tailwind_filters %}
 
+
 {% block messages %}
     {% if messages %}
         {% for msg in messages %}
@@ -16,6 +17,7 @@
         {% endfor %}
     {% endif %}
 {% endblock messages %}
+
 
 {% block body_content %}
 <div class="flex justify-center h-3/5 items-center md:mt-32">
@@ -34,7 +36,7 @@
             <tr>
                 <td class="text-center pb-4">{{ forloop.counter }}</td>
                 <td class="text-center pb-4"><img {% if order_item.item.image %} src="{{order_item.item.image.url}}" {% endif %} class="w-16 h-16" alt=""> </td>
-                <td class="text-center pb-4">{{order_item.item.name}}({{order_item.size}})</td>
+                <td class="text-center pb-4"><a class="hover:underline" href="{% url 'items:details' order_item.item.slug %}">{{order_item.item.name}}</a>({{order_item.size}})</td>
                 <td class="text-center pb-4">
                     <!-- <a href="{{order_item.item.get_add_to_cart_url}}" class="border border-green-500 ml-2 p-2">+</a> -->
                     <label for="" class="text-center">{{order_item.quantity}}</label>

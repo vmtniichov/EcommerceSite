@@ -63,18 +63,21 @@
                     </div>
                 {% endif %}
                   <div class = "flex justify-start mt-4 w-full">
-                    <h3 class="mr-4">Payment Option:</h3>
+                    <h3 class="mr-4">Phương thức thanh toán:</h3>
                       <div>
                         {% for value, name in form.fields.payment_option.choices %}
                         <input id="{{ name }}" {% if forloop.counter == 2 %} checked {% endif %} name="payment_option" value="{{ value }}" type="radio" class="custom-control-input" required>
                         <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
                         {% endfor %}
+                        
                       </div>
                   </div>
                 <div class = "py-4">
-                  <a href="{% url 'accounts:new-address' %}" class="hover:underline">Thêm địa chỉ mới</a>
+                  <small for="{{ name }}">{{form.fields.payment_option.help_text}}</small>
+
+                  <a href="{% url 'accounts:new-address' %}" class="text-wrap hover:underline">Thêm địa chỉ mới</a>
                 </div>
-                  <input type="submit" value="Thanh toán" class="border hover:bg-black hover:text-gray-200 bg-white text-black font-semibold rounded-full p-4">
+                  <input type="submit" value="Đặt hàng" class="border hover:bg-black hover:text-gray-200 bg-white text-black font-semibold rounded-full p-4">
               </form>
         </div>
     

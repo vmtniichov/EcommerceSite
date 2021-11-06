@@ -78,8 +78,6 @@ class CreateAddressView(LoginRequiredMixin, CreateView):
         form.instance.user = user
         return super().form_valid(form)
 
-
-
 class UpdateAddressView(LoginRequiredMixin, UpdateView):
     form_class = AddressCreateForm
     template_name = "addresses/address_update.html"
@@ -100,7 +98,6 @@ def remove_address(request,pk):
 
 def load_district(request):
     city_id = request.GET.get('city')
-    print(city_id)
     districts = District.objects.filter(city_id=city_id).order_by('name')
     return render(request, 'addresses/districts_dropdown_list_options.html', {'districts': districts})
 
@@ -117,19 +114,35 @@ class CheckoutView(LoginRequiredMixin,View):
         context = {
             'form':form,
         }
-        order = get_object_or_404(Order, user=self.request.user, order_state=False)
-        items = OrderItem.objects.filter(order=order)
-        
-        if items.exists():
-            context.update({
-                'items':items,
-                'order':order,
-            })
 
-        addresses = Address.objects.filter(user = self.request.user)
-        if addresses.exists():
-            context.update({'addresses':addresses})
-        return render(self.request, 'accounts/checkout.html', context)
+        order_qs = Order.objects.filter(user=self.request.user, order_state=False)
+        if order_qs.exists():
+            order = order_qs[0]
+            items = OrderItem.objects.filter(order=order_qs[0])
+            context.update({
+                    'order':order,
+            })
+            #Lấy danh sách item của order sau đó thêm vào context
+            if items.exists():
+                context.update({
+                    'items':items,
+                })
+                #Lấy danh sách địa chỉ giao hàng của user sau đó thêm vào context
+                addresses = Address.objects.filter(user = self.request.user)
+                if addresses.exists():
+                    context.update({'addresses':addresses})
+                return render(self.request, 'accounts/checkout.html', context)
+
+            else:#Nếu không có sản phẩm nào của order
+                messages.error(self.request, "Không có sản phẩm trong giỏ hàng!")
+                return redirect("items:cart")
+        #Nếu không có order
+        else:
+            messages.error(self.request, "Không có sản phẩm trong giỏ hàng!")
+            return redirect("items:cart")
+
+
+        
 
     def post(self, *args, **kwargs):
         form = CheckOutForm(self.request.POST or None)
@@ -144,6 +157,7 @@ class CheckoutView(LoginRequiredMixin,View):
                 order.shipping_address = address
                 order.order_state = True
                 order.order_date = timezone.now()
+                order.payment_method = self.request.POST['payment_option']
                 order.save()
 
                 #Gửi mail thông báo tới user

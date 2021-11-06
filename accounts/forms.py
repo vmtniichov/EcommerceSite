@@ -108,49 +108,17 @@ class AddressCreateForm(forms.ModelForm):
 
 
 PAYMENT_CHOICES = (
-    ('IB', 'Internet Banking'),
+    ('CK', 'Chuyển khoản'),
     ('COD', 'COD')
 )
 class CheckOutForm(forms.Form):
     payment_option = forms.ChoiceField(choices = PAYMENT_CHOICES, widget=forms.RadioSelect)
     # note = forms.TextInput()
     # create_new_address = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':''}),initial=True) 
-    # class Meta:
-    #     model = Address
-    #     fields = ('full_name','home','city','district','ward','phone')
-
-    #     widgets = {
-    #         'home':forms.TextInput(attrs={
-    #             'class':'border-b outline-none p-2 rounded',
-    #             'placeholder': 'Địa chỉ cụ thể',
-    #         }),
-    #         'city':forms.Select(attrs={
-    #             'class':'border outline-none p-2 rounded',
-    #         }),
-    #         'district':forms.Select(attrs={
-    #             'class':'border outline-none p-2 rounded',
-    #         }),
-    #         'ward':forms.Select(attrs={
-    #             'class':'border outline-none p-2 rounded',
-    #             'required':False,
-    #         }),
-    #         'phone':forms.TextInput(attrs={
-    #             'class':'border-b outline-none p-2 rounded',
-    #             'placeholder': 'Số điện thoại',
-    #             'required':True,
-    #         })
-    #     }
-
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-
-    #     self.fields['city'].label = 'Thành phố/Tỉnh'
-    #     self.fields['district'].label = 'Quận/Huyện'
-    #     self.fields['ward'].label = 'Phường/Xã'
-    #     self.fields['home'].label = 'Địa chỉ'
-    #     self.fields['phone'].label = 'Số điện thoại'
-    #     # self.fields['create_new_address'].label = 'Thêm địa chỉ mới'
-
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['payment_option'].help_text = "Trường hợp thanh toán bằng hình thức chuyển khoản vui lòng chuyển vào số tài khoản 4242 4242 4242 theo cú pháp MãĐơnHàng_Sđt"
     #     self.fields['city'].queryset = City.objects.all().order_by('name')
     #     self.fields['district'].queryset = District.objects.none()
     #     self.fields['ward'].queryset = Ward.objects.none()

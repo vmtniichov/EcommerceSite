@@ -24,8 +24,57 @@ class CartView(LoginRequiredMixin,View):
             context = {'order': order}
             return render(self.request, "items/cart.html",context)
         else:
-            messages.warning(self.request, "Nothing in your cart!")
             return render(self.request, 'items/cart.html', )
+
+
+class OrderListView(LoginRequiredMixin, View):
+
+    def get(self, *args, **kwargs):
+        if(self.request.user.is_superuser):
+            order_qs = Order.objects.filter(order_state=True).order_by("-order_date")
+            context = {"orders": order_qs}
+            return render(self.request, "orders/order_list.html", context)
+        else:
+            order_qs = Order.objects.filter(user = self.request.user,order_state=True)
+            context = {"orders": order_qs}
+            return render(self.request, "orders/order_list.html", context)
+
+@login_required
+def OrderFilter(request,state):
+    if(request.user.is_superuser):
+        order_qs = Order.objects.filter(order_state=True, process=state)
+        context = {"orders":order_qs}
+        return render(request,"orders/order_list.html",context)
+    else:
+        order_qs = Order.objects.filter(user=request.user, order_state=True, process=state)
+        context = {"orders":order_qs}
+        return render(request,"orders/order_list.html",context)
+
+class OrderDetailView(LoginRequiredMixin, DetailView):
+    model = Order
+    context_object_name = "order"
+    template_name = 'orders/order_details.html'
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Order.objects.all()
+        else:
+            user = self.request.user
+            return user.order_set.all()
+
+@login_required
+def OrderProcessDone(request,pk):
+    if request.user.is_superuser:
+        order_qs = Order.objects.filter(pk=pk, order_state=True, process=False)
+        if order_qs.exists():
+            order = order_qs[0]
+            order.process = True
+            order.save()
+            return redirect("items:orders")
+        return redirect("items:orders")
+    else:
+        return redirect("items:orders")
+
 
 
 def ItemDetailView(request, slug):
@@ -46,7 +95,6 @@ def ItemDetailView(request, slug):
             msg = f"Please select item's size!"
             messages.error(request,msg)
             return redirect("items:details", slug=slug)
-        
 
 @login_required
 def add_to_cart(request, slug):
