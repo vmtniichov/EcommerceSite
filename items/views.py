@@ -35,18 +35,18 @@ class OrderListView(LoginRequiredMixin, View):
             context = {"orders": order_qs}
             return render(self.request, "orders/order_list.html", context)
         else:
-            order_qs = Order.objects.filter(user = self.request.user,order_state=True)
+            order_qs = Order.objects.filter(user = self.request.user,order_state=True).order_by("-order_date")
             context = {"orders": order_qs}
             return render(self.request, "orders/order_list.html", context)
 
 @login_required
 def OrderFilter(request,state):
     if(request.user.is_superuser):
-        order_qs = Order.objects.filter(order_state=True, process=state)
+        order_qs = Order.objects.filter(order_state=True, process=state).order_by("-order_date")
         context = {"orders":order_qs}
         return render(request,"orders/order_list.html",context)
     else:
-        order_qs = Order.objects.filter(user=request.user, order_state=True, process=state)
+        order_qs = Order.objects.filter(user=request.user, order_state=True, process=state).order_by("-order_date")
         context = {"orders":order_qs}
         return render(request,"orders/order_list.html",context)
 
