@@ -2,6 +2,20 @@
 {% load static %}
 {% block body_content %}
 <img src="{% static 'media/images/hp-img.jpg' %}" class="w-full" alt="">
+
+<div  id="searchBox" class="flex justify-center items-center mt-16 md:mt-0 md:ml-0 xl:mt-8 xl:ml-0 ">
+     
+     <form action="{% url 'items:search' %}" class ="" method="POST">
+     {% csrf_token %}
+     {% for cate in categories %}
+       <a href="{% url 'items:filter-by-cate' cate.pk %}" class="mx-2 hover:underline">
+          {{cate.name}}
+       </a>
+     {% endfor %}
+      <input type="text" name="searchBar" id="searchBar" placeholder="Search item" class="w-1/2 rounded-full text-center p-2 text-black ml-2" >
+      <input type="submit" id="search" value ="Tìm" class="bg-white text-black font-semibold border border-gray-900 hover:bg-black hover:text-white ml-2 px-4 p-2 rounded-xl" >
+     </form>
+ </div>
 <div class="">
      <div class="grid grid-cols-10 md:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10">
          {% for item in items %}

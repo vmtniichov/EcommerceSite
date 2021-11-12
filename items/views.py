@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
 from .forms import OrderItemForm
-from .models import Item, Order,OrderItem
+from .models import Item, Order,OrderItem,Category
 from django.contrib import messages
 
 class HomeView(ListView):
@@ -14,6 +14,14 @@ class HomeView(ListView):
     template_name = 'index.html'
     model = Item
     context_object_name = 'items'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        categories = Category.objects.all()
+        context.update({
+            "categories":categories
+        })
+        return context
 
 class CartView(LoginRequiredMixin,View):
 
@@ -26,6 +34,24 @@ class CartView(LoginRequiredMixin,View):
         else:
             return render(self.request, 'items/cart.html', )
 
+def item_search_view(request):
+    if request.method == "POST":
+        print(request.POST)
+        search = request.POST['searchBar']
+        items = Item.objects.filter(name__icontains = search)
+        context = {
+            'items':items
+        }
+        return render(request, 'items/item_search.html', context)
+    elif request.method =="GET":
+        return redirect("items:filter-by-cate")
+
+def filter_by_category(request,pk):
+    items = Item.objects.filter(categories_id = pk)
+    context = {
+            'items':items
+        }
+    return render(request, 'items/item_search.html', context)
 
 class OrderListView(LoginRequiredMixin, View):
 
