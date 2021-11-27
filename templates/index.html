@@ -5,21 +5,21 @@
 
 <div  id="searchBox" class="flex justify-center items-center mt-16 md:mt-0 md:ml-0 xl:mt-8 xl:ml-0 ">
      
-     <form action="{% url 'items:search' %}" class ="" method="POST">
+     <form action="{% url 'items:search' %}" class ="flex justify-center w-3/5" method="POST">
      {% csrf_token %}
      {% for cate in categories %}
        <a href="{% url 'items:filter-by-cate' cate.pk %}" class="mx-2 hover:underline">
           {{cate.name}}
        </a>
      {% endfor %}
-      <input type="text" name="searchBar" id="searchBar" placeholder="Search item" class="w-1/2 rounded-full text-center p-2 text-black ml-2" >
-      <input type="submit" id="search" value ="Tìm" class="bg-white text-black font-semibold border border-gray-900 hover:bg-black hover:text-white ml-2 px-4 p-2 rounded-xl" >
+      <input type="text" name="searchBar" id="searchBar" placeholder="Tìm kiếm sản phẩm" class="rounded-full text-center p-2 text-black ml-2" >
+      <input type="submit" id="search" value ="Tìm" class="bg-transparent hover:underline" >
      </form>
  </div>
 <div class="">
-     <div class="grid grid-cols-10 md:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10">
+     <div id="itemsBox" class="grid grid-cols-10 md:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 infinite-container">
          {% for item in items %}
-         <div class="col-span-5 md:col-span-2 xl:col-span-2 2xl:col-span-2 m-2 mt-4 md:mt-8 border bg-white rounded-xl p-2">
+         <div class="col-span-5 md:col-span-2 xl:col-span-2 2xl:col-span-2 m-2 mt-4 md:mt-8 border bg-white rounded-xl p-2 infinite-item">
           <a href="{% url 'items:details' item.slug %}"class="">
                <div class="flex flex-col">
                    {% if item.image %}
@@ -37,12 +37,57 @@
                               <label class="text-xl text-center text-black font-semibold">{{item.item_formated_price}}</label>
                               {% endif %}
                          </div>     
-                       <a href="{% url 'items:details' item.slug %}" class="border-2 hover:bg-black hover:text-white text-black bg-transparent font-semibold p-4 rounded-xl">Details</a>
+                       <a href="{% url 'items:details' item.slug %}" class="border-2 hover:bg-black hover:text-white text-black bg-transparent font-semibold p-4 rounded-xl">Chi tiết</a>
                    </div>
                </div>
-          </a>
-     </div>
+              </a>
+          </div><!--Div item-->
          {% endfor %}
      </div>
-</div>
+</div><!--Div main body-->
+<div class = "flex justify-center">
+  <div>
+    {% if page_obj.has_next %}
+    <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">next</a>
+    {% endif %}
+  </div>
+  <div class="loading" style="display: none;">
+    Loading...
+  </div>
+</div><!--Div infinite scroll-->
 {% endblock body_content %}
+{% block script %}
+<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'js/infinite.min.js' %}"></script>
+  <script>
+    var infinite = new Waypoint.Infinite({
+            element: $('.infinite-container')[0],
+            onBeforePageLoad: function () {
+                // $('.loading').show();
+            },
+            onAfterPageLoad: function () {
+                // $('.loading').hide();
+            }
+        });
+  </script>
+<!-- 
+
+  <script>
+     $("[name='district']").change(function () {
+       var url = $("#addressForm").attr("data-wards-url");
+       var district_id = $(this).val();
+   
+       $.ajax({
+         url: url,
+         data: {
+           'district': district_id
+         },
+         success: function (data) {
+           $("[name='ward']").html(data);
+         }
+       });
+   
+     });
+   </script> -->
+   
+{% endblock script %}

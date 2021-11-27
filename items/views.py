@@ -4,16 +4,18 @@ from django.views.generic import ListView, DetailView, View
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+# from django.http import JsonResponse
+from django.views.generic.base import TemplateView
 
 from .forms import OrderItemForm
 from .models import Item, Order,OrderItem,Category
-from django.contrib import messages
 
 class HomeView(ListView):
     paginate_by = 10
     template_name = 'index.html'
     model = Item
     context_object_name = 'items'
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -22,6 +24,16 @@ class HomeView(ListView):
             "categories":categories
         })
         return context
+# class HomeView(TemplateView):
+#     template_name = 'index.html'
+# class ItemJsonListView(View):
+#     def get(self,*args,**kwargs):
+#         upper = kwargs.get("num_items")
+#         lower = upper - 5
+#         items = list(Item.objects.values()[lower:upper])
+#         items_size = len(Item.objects.all())
+#         max_size = True if upper >= items_size else False
+#         return JsonResponse({'items':items,'max_size':max_size},safe=False)
 
 class CartView(LoginRequiredMixin,View):
 
@@ -88,6 +100,7 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
             user = self.request.user
             return user.order_set.all()
 
+#cập nhật trạng thái đơn hàng
 @login_required
 def OrderProcessDone(request,pk):
     if request.user.is_superuser:
@@ -118,7 +131,7 @@ def ItemDetailView(request, slug):
         if "size" in request.POST:
             return add_to_cart(request, slug)
         else:
-            msg = f"Please select item's size!"
+            msg = f"Vui lòng chọn kích thước sản phẩm!"
             messages.error(request,msg)
             return redirect("items:details", slug=slug)
 

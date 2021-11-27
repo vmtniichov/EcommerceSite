@@ -22,8 +22,10 @@ User = get_user_model()
 
 class UserCreateView(CreateView):
     form_class = CreateUserForm
-    success_url = reverse_lazy("accounts:login")
     template_name = 'registration/signup.html'
+
+    def get_success_url(self):
+        return redirect("login")
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:

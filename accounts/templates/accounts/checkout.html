@@ -22,16 +22,12 @@
     <div class="flex flex-col justify-between md:flex-row w-full md:w-4/5 xl:w-3/5 2xl:w-3/5 border bg-white rounded-xl">
         <table>
             <tr class="">
-                <th class="text-center text-black p-8">#</th>
-                <th class="text-center text-black p-8">Image</th>
                 <th class="text-center text-black p-8">Item</th>
                 <th class="text-center text-black p-8">Amount</th>
             </tr>
             {% for order_item in order.items.all %}
             <tr>
-                <td class="text-center pb-4">{{ forloop.counter }}</td>
-                <td class="text-center pb-4"><img {% if order_item.item.image %} src="{{order_item.item.image.url}}" {% endif %} class="w-16 h-16" alt=""> </td>
-                <td class="text-center pb-4">{{order_item.item.name}}({{order_item.size}})x{{order_item.quantity}}</td>
+                <td class="text-center pb-4"><img {% if order_item.item.image %} src="{{order_item.item.image.url}}" {% endif %} class="w-16 h-16" alt=""> {{order_item.item.name}}({{order_item.size}})x{{order_item.quantity}}</td>
                 <td class="text-center pb-4">{{order_item.get_item_total_formated}}</td>
             </tr>
             {% endfor %}

@@ -24,42 +24,27 @@
     <div class="flex flex-col justify-center md:flex-col w-full md:w-4/5 xl:w-3/5 2xl:w-3/5 border bg-white rounded-xl">
         <table>
             <tr class="">
-                <th class="text-center text-black p-8">#</th>
-                <th class="text-center text-black p-8">Image</th>
-                <th class="text-center text-black p-8">Item</th>
-                <th class="text-center text-black p-8">Quantity</th>
-                <th class="text-center text-black p-8">Price</th>
-                <th class="text-center text-black p-8">Amount</th>
+                <th class="text-center text-black p-8">Tên</th>
+                <th class="text-center text-black p-8"></th>
+                <th class="text-center text-black p-8">Giá</th>
                 <th class="text-center text-black p-8"></th>
             </tr>
             {% for order_item in order.items.all %}
             <tr>
-                <td class="text-center pb-4">{{ forloop.counter }}</td>
-                <td class="text-center pb-4"><img {% if order_item.item.image %} src="{{order_item.item.image.url}}" {% endif %} class="w-16 h-16" alt=""> </td>
-                <td class="text-center pb-4"><a class="hover:underline" href="{% url 'items:details' order_item.item.slug %}">{{order_item.item.name}}</a>({{order_item.size}})</td>
                 <td class="text-center pb-4">
-                    <!-- <a href="{{order_item.item.get_add_to_cart_url}}" class="border border-green-500 ml-2 p-2">+</a> -->
-                    <label for="" class="text-center">{{order_item.quantity}}</label>
-                    <!-- <a href="{{order_item.item.get_remove_single_item_from_cart_url}}" class="border border-green-500 ml-2 p-2">-</a> -->
+                    <img {% if order_item.item.image %} src="{{order_item.item.image.url}}" {% endif %} class="w-16 h-16" alt=""> {{ forloop.counter }}. <a class="hover:underline" href="{% url 'items:details' order_item.item.slug %}">{{order_item.item.name}}</a>({{order_item.size}})-Số lượng: {{order_item.quantity}}
                 </td>
-                <td class="text-center pb-4"> 
-                    {% if order_item.item.discount_price %}
-                        {{order_item.item.item_formated_discount_price}}
-                    {% else %}
-                        {{order_item.item.item_formated_price}}
-                    {% endif %}</td>
-                
+                <th class="text-center text-black p-8"></th>
+
                 <td class="text-center pb-4">
                     {{order_item.get_item_total_formated}}
                 </td>
-                <td class="text-center pb-4"><a href="{% url 'items:remove-from-cart' order_item.item.slug order_item.size %}" class= "hover:text-blue-500 hover:underline">Remove</a></td>
-                <td class="text-center pb-4"> </td>
+                <td class="text-center pb-4"><a href="{% url 'items:remove-from-cart' order_item.item.slug order_item.size %}" class= "hover:text-blue-500 hover:underline">Xóa</a></td>
             </tr>
             {% endfor %}
             <tr  class="p-4">
-                <td colspan="4"></td>
-                <td class="text-center text-2xl">Total</td>
-                <td class="text-center text-2xl">{{order.get_order_total}}</td>
+                <td colspan="2"></td>
+                <td class="text-center text-2xl">Tổng: {{order.get_order_total}}</td>
             </tr>
             <tr></tr>
             <tr  class="p-4">
