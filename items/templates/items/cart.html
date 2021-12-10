@@ -25,16 +25,18 @@
         <table>
             <tr class="">
                 <th class="text-center text-black p-8">Tên</th>
-                <th class="text-center text-black p-8"></th>
                 <th class="text-center text-black p-8">Giá</th>
                 <th class="text-center text-black p-8"></th>
             </tr>
             {% for order_item in order.items.all %}
-            <tr>
+            <tr class ="border-b-2">
                 <td class="text-center pb-4">
-                    <img {% if order_item.item.image %} src="{{order_item.item.image.url}}" {% endif %} class="w-16 h-16" alt=""> {{ forloop.counter }}. <a class="hover:underline" href="{% url 'items:details' order_item.item.slug %}">{{order_item.item.name}}</a>({{order_item.size}})-Số lượng: {{order_item.quantity}}
+                    <img {% if order_item.item.image %} src="{{order_item.item.image.url}}" {% endif %} class="w-16 h-16" alt=""> {{ forloop.counter }}. 
+                    <a class="hover:underline" href="{% url 'items:details' order_item.item.slug %}">{{order_item.item.name}}</a>
+                    <span>
+                        ({{order_item.size}})-Số lượng:<a href="{% url 'items:remove-single-from-cart' order_item.item.slug order_item.size %}" class="p-2 m-2 border hover:bg-gray-900 hover:text-white rounded-xl">-</a>{{order_item.quantity}}<a href="{% url 'items:increase-quantity' order_item.item.slug order_item.size %}" class="p-2 m-2 border hover:bg-gray-900 hover:text-white rounded-xl">+</a>
+                    </span>
                 </td>
-                <th class="text-center text-black p-8"></th>
 
                 <td class="text-center pb-4">
                     {{order_item.get_item_total_formated}}

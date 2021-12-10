@@ -175,8 +175,6 @@ class CheckoutView(LoginRequiredMixin,View):
                 admin = User.objects.get(username="admin")
                 admin_email = [admin.email,]
                 send_mail(admin_subject, admin_email_msg, email_from,admin_email)
-
-                messages.success(self.request, "We've received your order. Thanks for shopping!")
                 return redirect('/')
 
         else:

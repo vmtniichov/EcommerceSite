@@ -11,12 +11,12 @@
      
 </head>
 <body class="bg-gray-200 h-screen" >
-     <header id="headerMenu" class="absolute flex justify-between flex-row flex-wrap md:flex-row xl:flex-row bg-black text-white md:items-center xl:items-center md:space-x-4 xl:space-x-4 py-2 md:py-0 px-6 relative">
-          <a href="{% url 'items:home' %}" class="">Logo</a>
+     <header id="headerMenu" class="md:top-0 absolute flex justify-between flex-row flex-wrap md:flex-row xl:flex-row bg-black text-white md:items-center xl:items-center md:space-x-4 xl:space-x-4 py-2 md:py-0 px-6 relative">
+          <a href="{% url 'items:home' %}" class=""><img src="https://img.icons8.com/nolan/64/u.png"/></a>
           <a id="btnMenu" class="inline-block md:hidden xl:hidden w-8 h-8 ">
                <img src="https://img.icons8.com/ios-glyphs/30/ffffff/menu--v2.png"/>
           </a>
-          <nav id="navMenu" class="h-screen md:h-auto hidden flex flex-col justify-between md:flex md:flex-row md:space-x-6 md:w-auto md:p-0 md:top-0 xl:flex xl:flex-row xl:space-x-6 xl:w-auto xl:p-0 xl:top-0 w-full top-8 left-0 font-semibold rounded">
+          <nav id="navMenu" class="h-screen md:h-auto hidden flex flex-col justify-between md:flex md:flex-row md:space-x-6 md:w-auto md:p-0 md:top-0 xl:flex xl:flex-row xl:space-x-6 xl:w-auto xl:p-0 xl:top-0 w-full left-0 font-semibold rounded">
                <div class="flex flex-col justify-end md:flex-row md:items-center md:space-x-6 xl:flex-row xl:items-center bg-black text-center pb-2">
                     <div class="flex flex-col justify-end md:flex-row md:items-center md:space-x-6 xl:flex-row xl:items-center bg-black text-center mt-4 pb-2">
                          {% if user.is_authenticated %}
@@ -41,9 +41,7 @@
                          </a>
                     </div>
                </div>
-               <button id="btnMenu2" class="h-2/3 bg-blue md:hidden">
-
-               </button>
+               <button id="btnMenu2" class="h-2/3 bg-blue md:hidden"></button>
           </nav>
           
      </header>
@@ -52,6 +50,8 @@
           
      {% endblock messages %}
      <div class=''>
+          
+          
           {% block body_content %}
        
           {% endblock body_content %}
@@ -59,7 +59,7 @@
      <footer class="text-center font-semibold p-8">
           <span class=" border-top-2">&copy {% now "Y" %} VMT</span>
      </footer>
-     
+     <!-- Small device menu button -->
      <script>
           var btn1 = document.getElementById("btnMenu");
           var btn2 = document.getElementById("btnMenu2");
@@ -74,6 +74,8 @@
           })
      </script>
 
+
+<!-- Hover giỏ hàng -->
       <script>
           var element = document.getElementById("btnCart")
           function hover(element) {
@@ -83,6 +85,7 @@
                element.setAttribute('src', 'https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/ffffff/external-cart-ecommerce-flatart-icons-outline-flatarticons-4.png');
           }
      </script>
+   
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>     
 {% block script %}
   

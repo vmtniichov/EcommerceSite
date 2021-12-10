@@ -189,7 +189,7 @@ def remove_from_cart(request,slug,size):
             
             if order_item_qs.exists():
                 order_item = order_item_qs[0]
-                msg = f'Deleted {order_item.item.name}({order_item.size}) from cart.'
+                msg = f'Đã xóa {order_item.item.name}({order_item.size}) khỏi giỏ hàng.'
                 order.items.remove(order_item)
                 order_item.delete()
                 messages.warning(request,msg)
@@ -198,6 +198,36 @@ def remove_from_cart(request,slug,size):
                 messages.warning(request,'Item not in your cart.')
                 return redirect("items:cart")
 
+@login_required
+def remove_single_item_from_cart(request,slug,size):
+    item = get_object_or_404(Item, slug = slug) 
+    order_qs = Order.objects.filter(user = request.user, order_state = False)
+    
 
+    if order_qs.exists():
+        order = order_qs[0]
+        order_item, _ = OrderItem.objects.get_or_create(item = item, order=order,size=size)
 
-        
+        if order.items.filter(item__slug = item.slug):
+            if order_item.quantity > 1:
+                order_item.quantity -= 1
+                order_item.save()
+                return redirect("items:cart")
+            else:
+                order_item.delete()
+                return redirect("items:cart")
+
+@login_required
+def increase_quantity(request,slug,size):
+    item = get_object_or_404(Item, slug = slug) 
+    order_qs = Order.objects.filter(user = request.user, order_state = False)
+    if order_qs.exists():
+        order = order_qs[0]
+        order_item, _ = OrderItem.objects.get_or_create(item = item, order=order,size=size)
+        order_item.quantity += 1
+        order_item.save()
+        return redirect("items:cart")
+    else:
+        return redirect("items:cart")
+
+    

@@ -16,7 +16,7 @@ urlpatterns = [
     path('tai-khoan/', include('accounts.urls', namespace="accounts")),
     path('accounts/', include('allauth.urls')),
 
-    path('dang-nhap/', LoginView.as_view(template_name = 'registration/login.html', redirect_authenticated_user=True), name = "login"),
+    path('dang-nhap/', LoginView.as_view(template_name = 'accounts/login.html', redirect_authenticated_user=True), name = "login"),
     path('dang-xuat/', LogoutView.as_view(), name = 'logout'),
 
 
