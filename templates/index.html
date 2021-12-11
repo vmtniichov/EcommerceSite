@@ -19,7 +19,7 @@
 <div class="">
      <div id="itemsBox" class="grid grid-cols-10 md:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 infinite-container">
          {% for item in items %}
-         <div class="col-span-5 md:col-span-2 xl:col-span-2 2xl:col-span-2 m-2 mt-4 md:mt-8 border bg-white rounded-xl p-2 infinite-item">
+         <div class="col-span-5 md:col-span-2 xl:col-span-2 2xl:col-span-2 m-2 mt-4 md:mt-8 bg-white hover:bg-gray-300 border-4 rounded-xl p-2 infinite-item">
           <a href="{% url 'items:details' item.slug %}"class="">
                <div class="flex flex-col">
                    {% if item.image %}
@@ -47,11 +47,11 @@
 </div><!--Div main body-->
 
 <!-- Sticky Button -->
-<a href="{% url 'items:cart' %}"  class="hidden fixed right-0 bottom-64 text-xl rounded-xl" id="btnToTop2">
-  <img src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/000000/external-cart-ecommerce-flatart-icons-outline-flatarticons-4.png"/>
+<a href="{% url 'items:cart' %}"  class="hidden fixed bg-gray-900 hover:bg-gray-600 p-2 right-0 bottom-48 text-xl rounded-xl" id="btnToTop2">
+  <img src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/ffffff/external-cart-ecommerce-flatart-icons-outline-flatarticons-4.png"/>
 </a>
-<a href="" class="hidden fixed right-0 bottom-32 text-xl rounded-xl" id="btnToTop">
-  <img src="https://img.icons8.com/external-flatart-icons-solid-flatarticons/64/000000/external-up-arrow-arrow-flatart-icons-solid-flatarticons-10.png"/>
+<a href="" class="hidden fixed  bg-gray-900 hover:bg-gray-600 p-2 right-0 bottom-16 text-xl rounded-xl" id="btnToTop">
+  <img src="https://img.icons8.com/external-flatart-icons-solid-flatarticons/64/ffffff/external-up-arrow-arrow-flatart-icons-solid-flatarticons-10.png"/>
 </a>
 <!-- Infinite scroll -->
 <div class = "flex justify-center">
