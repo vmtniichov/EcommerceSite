@@ -1,9 +1,12 @@
 from django.urls import path
 from .views import UserCreateView, UserDetailView, UserUpdateView,PwdChangeView, CreateAddressView, UpdateAddressView,CheckoutView ,remove_address, load_district, load_ward
-
+from django.contrib.auth.views import LoginView, LogoutView
 app_name = "accounts"
 
 urlpatterns = [
+    
+    path('login/', LoginView.as_view(template_name = 'accounts/login.html', redirect_authenticated_user=True), name = "login"),
+    path('dang-xuat/', LogoutView.as_view(), name = 'logout'),
     path('dang-ky/', UserCreateView.as_view(), name = "signup"),
     path('thong-tin-ca-nhan/', UserDetailView.as_view(), name = "profile"),
     path('cap-nhat-thong-tin/', UserUpdateView.as_view(), name = "update"),

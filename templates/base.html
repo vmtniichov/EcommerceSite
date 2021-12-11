@@ -31,9 +31,9 @@
                          {% endif %}
                          <a href="{% url 'accounts:profile' %}" class=" hover:underline p-4 md:p-0 xl:p-0">Tài khoản</a>
                          <a href="{% url 'items:orders' %}" class=" hover:underline p-4 md:p-0 xl:p-0">Đơn hàng</a>
-                         <a href="{% url 'logout' %}" class=" hover:underline p-4 md:p-0 xl:p-0">Đăng xuất</a>
+                         <a href="{% url 'accounts:logout' %}" class=" hover:underline p-4 md:p-0 xl:p-0">Đăng xuất</a>
                     {% else %}
-                         <a href="{% url 'login' %}" class=" hover:underline p-4 md:p-0 xl:p-0">Đăng nhập</a>
+                         <a href="{% url 'accounts:login' %}" class=" hover:underline p-4 md:p-0 xl:p-0">Đăng nhập</a>
                          <a href="{% url 'accounts:signup' %}" class=" hover:underline p-4 md:p-0 xl:p-0">Đăng ký</a>
                     {% endif %}</div>
 

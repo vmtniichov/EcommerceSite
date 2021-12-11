@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load tailwind_filters %}
+
+{% load socialaccount %}
 {% block body_content %}
 <div class="flex justify-center items-center md:mt-32">
     
@@ -14,7 +16,7 @@
             <div class="m-4" >
                 <small class="">Không có tài khoản? <a href="{% url 'accounts:signup' %}" class="text-blue-500 hover:underline">Đăng ký</a></small>
             </div>
-            <a href="/accounts/google/login/?process=login">
+            <a href="{% provider_login_url 'google' %}">
                 <input type="button" class="border-2 w-full bg-transparent hover:text-white hover:bg-yellow-600 text-black p-4 font-semibold rounded-full" value="Đăng nhập bằng Google">
             </a>
             <div class="m-4" >
@@ -25,4 +27,4 @@
     </div>
 
  </div>
-{% endblock body_content %}
+{% endblock body_content %}`

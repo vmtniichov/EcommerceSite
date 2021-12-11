@@ -46,6 +46,9 @@ INSTALLED_APPS = [
 
     'django.contrib.sites',
 
+    'items.apps.ItemsConfig',
+    'accounts.apps.AccountsConfig',
+
     #third-party apps
     'allauth',
     'allauth.account',
@@ -54,9 +57,6 @@ INSTALLED_APPS = [
     
     'crispy_forms',
     'crispy_tailwind',
-    
-    'items.apps.ItemsConfig',
-    'accounts.apps.AccountsConfig',
 
     
 
@@ -158,7 +158,7 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "login"
+LOGOUT_REDIRECT_URL = "accounts:login"
 
 CRISPY_TEMPLATE_PACK = 'tailwind'
 

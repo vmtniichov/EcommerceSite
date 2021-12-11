@@ -4,21 +4,16 @@ from django.contrib.auth.views import (
     PasswordResetView, 
     PasswordResetDoneView, 
     PasswordResetConfirmView, 
-    PasswordResetCompleteView,
-    LoginView,
-    LogoutView
+    PasswordResetCompleteView,LoginView, LogoutView
 )
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('items.urls', namespace="items")),
-    path('tai-khoan/', include('accounts.urls', namespace="accounts")),
+    path('accounts/', include('accounts.urls', namespace="accounts")),
+
     path('accounts/', include('allauth.urls')),
-
-    path('dang-nhap/', LoginView.as_view(template_name = 'accounts/login.html', redirect_authenticated_user=True), name = "login"),
-    path('dang-xuat/', LogoutView.as_view(), name = 'logout'),
-
 
     #Password reset form
     path('password-reset/', PasswordResetView.as_view(template_name="registration/password_reset.html"), name = "password_reset"),
