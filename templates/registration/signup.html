@@ -10,7 +10,7 @@
             {{form | crispy}}
             <input type="submit" class="border-2 w-full bg-transparent hover:text-white hover:bg-black text-black p-4 font-semibold rounded-full" value="Đăng ký">
             <div class="m-4" >
-                <small class="">Đã có tài khoản? <a href="{% url 'login' %}" class="text-blue-500 hover:underline">Đăng nhập</a></small>
+                <small class="">Đã có tài khoản? <a href="{% url 'accounts:login' %}" class="text-blue-500 hover:underline">Đăng nhập</a></small>
             </div>
         </form>
         
