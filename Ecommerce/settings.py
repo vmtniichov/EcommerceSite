@@ -15,7 +15,7 @@ import os
 import environ
 
 env = environ.Env(
-    DEBUG = (bool,False)
+    DEBUG = (bool,True)
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -108,6 +108,18 @@ DATABASES = {
         'NAME': 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': env("DATABASE_NAME"),
+#         'USER': env("DATABASE_USERNAME"),
+#         'PASSWORD': env("DATABASE_USERPASSWORD"),
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
+
 
 
 # Password validation
