@@ -72,7 +72,7 @@ class Order(models.Model):
     order_total = models.PositiveIntegerField(default=0, blank=True, null=True)
 
     shipping_address = models.ForeignKey(Address, blank=True,null=True, on_delete=models.CASCADE)
-    process = models.BooleanField(default=False,blank=True,null=True)
+    process = models.BooleanField(default=None,blank=True,null=True)
     payment_method = models.CharField(max_length=64, blank=True,null=True)
 
 

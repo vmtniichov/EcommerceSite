@@ -39,6 +39,7 @@
         <div class="flex {% if user.is_superuser %}justify-between{% else %} justify-end {% endif %} items-center p-8">
             {% if user.is_superuser %}
             <a href="{% url 'items:order-process-done' order.pk %}" class="border-2 hover:bg-black hover:text-white text-black bg-transparent font-semibold p-4 rounded-xl">Hoàn tất đơn hàng</a>
+            <a href="{% url 'items:cancel-order' order.pk %}" class="border-2 hover:bg-black hover:text-white text-black bg-transparent font-semibold p-4 rounded-xl">Hủy đơn hàng</a>
             {% endif %}
             <div>
                 <p>Họ tên: {{order.shipping_address.full_name}}</p>

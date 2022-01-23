@@ -78,7 +78,7 @@ class OrderListView(LoginRequiredMixin, View):
             return render(self.request, "orders/order_list.html", context)
 
 @login_required
-def OrderFilter(request,state):
+def OrderFilter(request,state=None):
     if(request.user.is_superuser):
         order_qs = Order.objects.filter(order_state=True, process=state).order_by("-order_date")
         context = {"orders":order_qs}
@@ -104,7 +104,7 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
 @login_required
 def OrderProcessDone(request,pk):
     if request.user.is_superuser:
-        order_qs = Order.objects.filter(pk=pk, order_state=True, process=False)
+        order_qs = Order.objects.filter(pk=pk, order_state=True)
         if order_qs.exists():
             order = order_qs[0]
             order.process = True
@@ -114,7 +114,15 @@ def OrderProcessDone(request,pk):
     else:
         return redirect("items:orders")
 
-
+def cancel_order(request,pk):
+    if request.user.is_superuser:
+        order_qs = Order.objects.filter(pk=pk, order_state=True)
+        if order_qs.exists():
+            order = order_qs[0]
+            order.process = False
+            order.save()
+            return redirect("items:orders")
+        return redirect("items:orders")
 
 def ItemDetailView(request, slug):
     if request.method == "GET":

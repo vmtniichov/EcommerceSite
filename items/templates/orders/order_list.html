@@ -6,8 +6,9 @@
             <tr>
                 <td colspan="5"></td>
                 <td class="text-center text-black pt-4">
-        Trạng thái: <a class = "hover:underline" href="{% url 'items:order-filter' 1 %}">Xong</a> | 
-                    <a class = "hover:underline" href="{% url 'items:order-filter' 0 %}">Đang xử lý</a> | 
+        Trạng thái: <a class = "hover:underline" href="{% url 'items:order-filter' 1 %}">Đã xong</a> | 
+                    <a class = "hover:underline" href="{% url 'items:order-filter' 0 %}">Đã hủy</a> | 
+                    <a class = "hover:underline" href="{% url 'items:order-filter' %}">Đang xử lý</a> | 
                     <a class = "hover:underline" href="{% url 'items:orders' %}">Tất cả</a></td>
 
             </tr>
@@ -29,6 +30,8 @@
                 <td class="text-center pb-4">
                     {% if order.process == True %}
                       Hoàn thành
+                    {% elif order.process == False %}
+                      Đã Hủy
                     {% else %}
                       Đang xử lý
                     {% endif %}

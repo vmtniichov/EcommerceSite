@@ -19,16 +19,16 @@
 
 {% block body_content %}
 <div class="flex justify-center items-center md:mt-32">
-    <div class="flex flex-col justify-between md:flex-row w-full md:w-4/5 xl:w-3/5 2xl:w-3/5 border bg-white rounded-xl">
-        <table>
+    <div class="flex justify-between md:flex-row w-full md:w-4/5 xl:w-3/5 2xl:w-3/5 border bg-white rounded-xl">
+        <table class="m-4 w-full">
             <tr class="">
-                <th class="text-center text-black p-8">Item</th>
-                <th class="text-center text-black p-8">Amount</th>
+                <th class="text-center text-black p-4">Tên</th>
+                <th class="text-center text-black p-4">Giá</th>
             </tr>
             {% for order_item in order.items.all %}
-            <tr>
-                <td class="text-center pb-4"><img {% if order_item.item.image %} src="{{order_item.item.image.url}}" {% endif %} class="w-16 h-16" alt=""> {{order_item.item.name}}({{order_item.size}})x{{order_item.quantity}}</td>
-                <td class="text-center pb-4">{{order_item.get_item_total_formated}}</td>
+            <tr class="border-b-2">
+                <td class="text-center"><img {% if order_item.item.image %} src="{{order_item.item.image.url}}" {% endif %} class="w-16 h-16" alt=""> {{order_item.item.name}}({{order_item.size}})x{{order_item.quantity}}</td>
+                <td class="text-center">{{order_item.get_item_total_formated}}</td>
             </tr>
             {% endfor %}
         </table>
@@ -70,7 +70,7 @@
                   </div>
                 <div class = "py-4">
                   <small for="{{ name }}">{{form.fields.payment_option.help_text}}</small>
-
+<br/>
                   <a href="{% url 'accounts:new-address' %}" class="text-wrap hover:underline">Thêm địa chỉ mới</a>
                 </div>
                   <input type="submit" value="Đặt hàng" class="border hover:bg-black hover:text-gray-200 bg-white text-black font-semibold rounded-full p-4">
